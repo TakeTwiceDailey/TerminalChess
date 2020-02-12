@@ -18,49 +18,49 @@ void drawBoard2(char cstate[8][8], char dead1[16], char dead2[16]){
 	time = 500;
 	erase();
 	y = 0;
-	
+
 	char pawn[3][5] =
 	{
 		{' ',' ',' ',' ',' '},
 		{' ','_','o','_',' '},
-		{' ','[','_',']',' '},
+		{' ','[','1',']',' '},
 	};
-	
+
 	char knight[3][5] =
 	{
 		{' ','_','^','^',' '},
 		{'(','*','*','_','|'},
-		{' ','[','_',']',' '},
+		{' ','[','1',']',' '},
 	};
-	
+
 	char bishop[3][5] =
 	{
 		{' ',' ','o',' ',' '},
 		{' ','(','-',')',' '},
-		{' ','[','_',']',' '},
+		{' ','[','1',']',' '},
 	};
-	
+
 	char rook[3][5] =
 	{
 		{' ',' ',' ',' ',' '},
 		{'|','_','|','_','|'},
-		{' ','[','_',']',' '},
+		{' ','[','1',']',' '},
 	};
-	
+
 	char queen[3][5] =
 	{
 		{' ','_','O','_',' '},
 		{' ','|','|','|',' '},
-		{' ','[','_',']',' '},
+		{' ','[','1',']',' '},
 	};
-	
+
 	char king[3][5] =
 	{
 		{' ','_','+','_',' '},
 		{' ','|','|','|',' '},
-		{'_','[','_',']','_'},
+		{'_','[','1',']','_'},
 	};
-	
+
 	char realpieces[8][8][3][5];
 	for( int i = 0; i < 8; i++ )
 	{
@@ -138,7 +138,7 @@ void drawBoard2(char cstate[8][8], char dead1[16], char dead2[16]){
 			}
 		}
 	}
-	
+
 	regprint("\n\t\t  1       2       3       4       5       6       7       8\n\n");
 	regprint("\t\t _________________________________________________________________\n");
 	regprint("\t\t |a      |b      |c      |d      |e      |f      |g      |h      |\n", cstate[0][0], cstate[0][1], cstate[0][2], cstate[0][3], cstate[0][4], cstate[0][5], cstate[0][6], cstate[0][7]);
@@ -173,13 +173,13 @@ void drawBoard2(char cstate[8][8], char dead1[16], char dead2[16]){
 	regprint("\t\t |       |       |       |       |       |       |       |       |  a  b  c  d  e  f  g  h\n", dead2[0], dead2[1], dead2[2], dead2[3], dead2[4], dead2[5], dead2[6], dead2[7]);
 	regprint("\t8\t|       |       |       |       |       |       |       |       |  a  b  c  d  e  f  g  h\n", dead2[8], dead2[9], dead2[10], dead2[11], dead2[12], dead2[13], dead2[14], dead2[15]);
 	regprint("\t\t |_______|_______|_______|_______|_______|_______|_______|_______|\n");
-	
+
 	y = 4;
 	x = 11;
 	move(y,x);
-	
+
 	init_pair(1, COLOR_BLUE, COLOR_BLACK);
-	
+
 	for ( int i = 0; i < 8; i++ )
 	{
 		x++;
@@ -215,7 +215,7 @@ void drawBoard2(char cstate[8][8], char dead1[16], char dead2[16]){
 		move(y,x);
 	}
 	refresh();
-	
+
 }
 
 bool checkvalidmove( int player, char cstate[8][8], int a, int b, int c, int d ){
@@ -229,20 +229,20 @@ bool checkvalidmove( int player, char cstate[8][8], int a, int b, int c, int d )
 			test[i][j] = cstate[i][j];
 		}
 	}
-	
+
 	int state = checkScan( cstate );
-	
+
 	if ( state == player || state == 0 )
 	{
 		test[c][d] = test[a][b];
 		test[a][b] = ' ';
 		int tempState = checkScan( test );
-		
+
 		if ( tempState == player )
-		{					
+		{
 			return false;
 		}
-		else 
+		else
 		{
 			return true;
 		}
@@ -260,7 +260,7 @@ bool validmove( char cstate[8][8], int a, int b, int c, int d){
 
 	// Can't take your own piece
 
-	if ( isupper( e ) != 0 && isupper( f ) != 0 ){	
+	if ( isupper( e ) != 0 && isupper( f ) != 0 ){
 		return false;
 	}
 
@@ -284,9 +284,9 @@ bool validmove( char cstate[8][8], int a, int b, int c, int d){
 
 	if ( e == 'K' || e == 'k' ){
 		if ( (sqrt((pow ((a-c),2) + pow ((b-d), 2)))) == sqrt(2) || (sqrt((pow ((a-c), 2) + pow ((b-d), 2)))) == 1 ){
-			return true;		
+			return true;
 		}
-		return false;				
+		return false;
 	}
 
 	// Queen can move in any direction any number of spaces, but cannot jump pieces
@@ -312,7 +312,7 @@ bool validmove( char cstate[8][8], int a, int b, int c, int d){
 		}
 		if ( b == d ){
 			if ( a < c ){
-				for ( i = (a+1); i < c; i++){					
+				for ( i = (a+1); i < c; i++){
 						if ( cstate[i][b] != ' ' ){
 						return false;
 					}
@@ -333,29 +333,29 @@ bool validmove( char cstate[8][8], int a, int b, int c, int d){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a-i][b+i] != ' ' ){
 						return false;
-					}				
-				} 			
+					}
+				}
 			}
 			if ( a > c && b > d ){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a-i][b-i] != ' ' ){
 						return false;
-					}				
-				} 
+					}
+				}
 			}
 			if ( a < c && b > d ){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a+i][b-i] != ' ' ){
 						return false;
-					}				
-				} 
+					}
+				}
 			}
 			if ( a < c && b < d ){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a+i][b+i] != ' ' ){
 						return false;
-					}				
-				} 
+					}
+				}
 			}
 			return true;
 		}
@@ -370,29 +370,29 @@ bool validmove( char cstate[8][8], int a, int b, int c, int d){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a-i][b+i] != ' ' ){
 						return false;
-					}				
-				} 			
+					}
+				}
 			}
 			if ( a > c && b > d ){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a-i][b-i] != ' ' ){
 						return false;
-					}				
-				} 
+					}
+				}
 			}
 			if ( a < c && b > d ){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a+i][b-i] != ' ' ){
 						return false;
-					}				
-				} 
+					}
+				}
 			}
 			if ( a < c && b < d ){
 				for ( i = 1; i < abs(a-c); i++){
 					if ( cstate[a+i][b+i] != ' ' ){
 						return false;
-					}				
-				} 
+					}
+				}
 			}
 			return true;
 		}
@@ -431,7 +431,7 @@ bool validmove( char cstate[8][8], int a, int b, int c, int d){
 		}
 		if ( b == d ){
 			if ( a < c ){
-				for ( i = (a+1); i < c; i++){					
+				for ( i = (a+1); i < c; i++){
 						if ( cstate[i][b] != ' ' ){
 						return false;
 					}
@@ -454,60 +454,60 @@ bool validmove( char cstate[8][8], int a, int b, int c, int d){
 
 	if ( e == 'P' ){
 		if ( (a == 1) && (c == (a+2)) && (b == d) ){
-			if ( cstate[c][d] == ' ' ){			
+			if ( cstate[c][d] == ' ' ){
 				return true;
 			}
 		}
 		if ( c == (a+1) && (b == d) ){
-			if ( cstate[c][d] == ' ' ){			
+			if ( cstate[c][d] == ' ' ){
 				return true;
 			}
-		}	
+		}
 		if ( c == (a+1) && (b == (d-1) || b == (d+1))){
 			if ( cstate[c][d] != ' ' ){
 				return true;
 			}
-		} 
+		}
 		return false;
 	}
 
 	if ( e == 'p' ){
 		if ( a == 6 && c == (a-2) && b == d){
-			if ( cstate[c][d] == ' ' ){			
+			if ( cstate[c][d] == ' ' ){
 				return true;
 			}
 		}
 		if ( c == (a-1) && (b == d) ){
-			if ( cstate[c][d] == ' ' ){			
+			if ( cstate[c][d] == ' ' ){
 				return true;
 			}
-		}	
+		}
 		if ( c == (a-1) && (b == (d-1) || b == (d+1))){
 			if ( cstate[c][d] != ' ' ){
 				return true;
 			}
-		} 
+		}
 		return false;
 	}
 
 	// the king can 'castle' with a rook
 
 	//if ( ( e == 'K' && f == 'R') || ( e == 'k' && f == 'r' ) ){
-	
+
 	//}
 
 	// the player must move their king out of check if it is in check
 
-	
-	
+
+
 }
 
 	// checkScan: returns 1 if first player's king is in check, returns 2 if second player's king is in check, returns 0 otherwise
 
 int checkScan( char cstate[8][8] ){
-	
+
 	int i, j, k, l, m, n, o, p;
-	int value1 = 0; 
+	int value1 = 0;
 	int value2 = 0;
 
 	for ( i = 0; i < 8; i++ ){
@@ -516,10 +516,10 @@ int checkScan( char cstate[8][8] ){
 				for ( k = 0; k < 8; k++ ){
 					for ( l = 0; l < 8; l++ ){
 						if ( islower( cstate[k][l] ) != 0 ){
-							if ( validmove( cstate, k, l, i, j ) == true ){								
+							if ( validmove( cstate, k, l, i, j ) == true ){
 								value1 = 1;
 							}
-						}		
+						}
 					}
 				}
 			}
@@ -535,7 +535,7 @@ int checkScan( char cstate[8][8] ){
 							if ( validmove( cstate, o, p, m, n ) == true ){
 								value2 = 2;
 							}
-						}	
+						}
 					}
 				}
 			}
@@ -546,13 +546,13 @@ int checkScan( char cstate[8][8] ){
 
 	// checkmateScan: checks for a checkmate and returns that same values as checkScan if true
 
-int checkmateScan( char cstate[8][8] ){ 
+int checkmateScan( char cstate[8][8] ){
 
-	int i, j, k, l, m, n, o, p, q, r; 
-	
+	int i, j, k, l, m, n, o, p, q, r;
+
 	int value1 = 0;
 	int value2 = 0;
-	
+
 	char test[8][8];
 
 	char tmp;
@@ -562,18 +562,18 @@ int checkmateScan( char cstate[8][8] ){
 			test[q][r] = cstate[q][r];
 		}
 	}
-	
-	
+
+
 	for ( i = 0; i < 8; i++ ){
 		for ( j = 0; j < 8; j++ ){
 			for ( k = 0; k < 8; k++ ){
 				for ( l = 0; l < 8; l++ ){
 					if ( isupper( test[i][j] ) != 0 ){
 						if ( validmove( test, i, j, k, l ) == true ){
-							tmp = test[k][l];							
+							tmp = test[k][l];
 							test[k][l] = test[i][j];
-							test[i][j] = ' ';																	
-							if ( checkScan(test) != 1 ){							
+							test[i][j] = ' ';
+							if ( checkScan(test) != 1 ){
 								goto check1;
 							}
 							test[i][j] = test[k][l];
@@ -587,16 +587,16 @@ int checkmateScan( char cstate[8][8] ){
 	value1 = 1;
 
 	check1:
-	
+
 	for ( m = 0; m < 8; m++ ){
 		for ( n = 0; n < 8; n++ ){
 			for ( o = 0; o < 8; o++ ){
 				for ( p = 0; p < 8; p++ ){
 					if ( islower( test[m][n] ) != 0 ){
 						if ( validmove( test, m, n, o, p ) == true ){
-							tmp = test[o][p];							
+							tmp = test[o][p];
 							test[o][p] = test[m][n];
-							test[m][n] = ' ';																	
+							test[m][n] = ' ';
 							if ( checkScan(test) != 2 ){
 								goto check2;
 							}
@@ -626,14 +626,14 @@ struct AImove
 AImove getAImove ( char cstate[8][8] )
 {
 	newAImove:
-				
+
 	int fromX = rand() % 8;
 	int fromY = rand() % 8;
 	int toX = rand() % 8;
 	int toY = rand() % 8;
-	
+
 	if ( islower( cstate[fromX][fromY] ) == 0 )
-	{ 
+	{
 		goto newAImove;
 	}
 	else if ( !validmove( cstate, fromX, fromY, toX, toY ) )
@@ -644,14 +644,14 @@ AImove getAImove ( char cstate[8][8] )
 	{
 		goto newAImove;
 	}
-	
+
 	AImove move;
-	
+
 	move.AIfromX = fromX;
 	move.AIfromY = fromY;
 	move.AItoX = toX;
 	move.AItoY = toY;
-	
+
 	return move;
 }
 
@@ -660,7 +660,7 @@ bool endState( char cstate[8][8] ){
 	if ( checkScan( cstate ) == 1 ){
 		slowprint( "\nCHECK TO PLAYER ONE.\n\n");
 	}
-	
+
 	if ( checkScan( cstate ) == 2){
 		slowprint( "\nCHECK TO PLAYER TWO.\n\n");
 	}
@@ -670,7 +670,7 @@ bool endState( char cstate[8][8] ){
 		sleep(5);
 		return true;
 	}
-	
+
 	if ( checkmateScan( cstate ) == 2 ){
 		slowprint( "\nCHECKMATE ON PLAYER TWO. PLAYER ONE WINS.\n\n");
 		sleep(5);
@@ -682,26 +682,26 @@ bool endState( char cstate[8][8] ){
 	// chess: code for the game option chess
 
 void chess(){
-	
+
 	start_color();
 
 	char cstate[8][8];
 	char dead1[16];
-	char dead2[16];	
+	char dead2[16];
 	int fromX, fromY, toX, toY, i, j;
 	int chessplayer = 1;
 	bool gameover = false;
 	bool AI = true;
-	
+
 
 	for ( i = 0; i < 16; i++ ){
 			dead1[i] = ' ';
-			dead2[i] = ' ';		
+			dead2[i] = ' ';
 	}
 
 	for ( i = 0; i < 8; i++ ){
 		for ( j = 0; j < 8; j++ ){
-			cstate[i][j] = ' ';		
+			cstate[i][j] = ' ';
 		}
 	}
 
@@ -737,29 +737,29 @@ void chess(){
 	cstate[6][5] = 'p';
 	cstate[6][6] = 'p';
 	cstate[6][7] = 'p';
-	
+
 	system( "clear" );
 
 	drawBoard2( cstate, dead1, dead2 );
-	
+
 	while ( gameover == false )
 	{
-		
+
 		if ( chessplayer == 1 )
 		{
 
 			slowprint( "\nPLAYER ONE MAKE YOUR MOVE:  ");
-	
-			newPlayer1Input: 
-			 
+
+			newPlayer1Input:
+
 			scanw( "%d%d%d%d", &fromX, &fromY, &toX, &toY);
-			
+
 			fromX += -1;
 			fromY += -1;
 			toX += -1;
 			toY += -1;
-		
-			if ( isupper( cstate[fromX][fromY] ) == 0 ){ 
+
+			if ( isupper( cstate[fromX][fromY] ) == 0 ){
 				slowprint( "\nINVALID MOVE:  ");
 				goto newPlayer1Input;
 			}
@@ -779,59 +779,59 @@ void chess(){
 						{
 							if ( dead1[i] == ' ' )
 							{
-								dead1[i] = cstate[toX][toY];					
+								dead1[i] = cstate[toX][toY];
 								cstate[toX][toY] = cstate[fromX][fromY];
 								cstate[fromX][fromY] = ' ';
 								break;
 							}
-						}		
+						}
 					}
 				}
 				else
 				{
 					slowprint( "\nINVALID MOVE (MUST MOVE YOUR KING OUT OF CHECK):  ");
-					goto newPlayer1Input;		
-				}				
+					goto newPlayer1Input;
+				}
 			}
 			else
 			{
 				slowprint( "\nINVALID MOVE:  ");
 				goto newPlayer1Input;
 			}
-			
+
 			chessplayer = 2;
 			drawBoard2(cstate, dead1, dead2);
 			gameover = endState( cstate );
 			if ( gameover ) { break; }
 		}
-		
+
 		if ( chessplayer == 2 )
 		{
 			if (AI)
 			{
 				AImove move = getAImove( cstate );
-				
+
 				fromX = move.AIfromX;
 				fromY = move.AIfromY;
 				toX = move.AItoX;
 				toY = move.AItoY;
-				
+
 			}
 			else{
-			
+
 			slowprint( "\nPLAYER TWO MAKE YOUR MOVE:  ");
-	
-			newPlayer2Input: 
+
+			newPlayer2Input:
 			scanw( "%d%d%d%d", &fromX, &fromY, &toX, &toY);
-			
+
 			fromX += -1;
 			fromY += -1;
 			toX += -1;
 			toY += -1;
 			}
-			
+
 			if ( islower( cstate[fromX][fromY]) == 0 )
-			{ 
+			{
 				slowprint( "\nINVALID MOVE (lower):  ");
 				goto newPlayer2Input;
 			}
@@ -856,28 +856,27 @@ void chess(){
 								cstate[fromX][fromY] = ' ';
 								break;
 							}
-						}		
+						}
 					}
 				}
 				else
 				{
 				slowprint( "\nINVALID MOVE (MUST MOVE YOUR KING OUT OF CHECK):  ");
-				goto newPlayer2Input;		
-				}	
+				goto newPlayer2Input;
+				}
 			}
 			else
 			{
 				slowprint( "\nINVALID MOVE (validmove) :  ");
 				goto newPlayer2Input;
 			}
-			
+
 
 			chessplayer = 1;
 			system( "clear" );
 			drawBoard2(cstate, dead1, dead2);
 			gameover = endState( cstate );
-			
+
 		}
 	}
 }
-
